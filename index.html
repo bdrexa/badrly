@@ -3490,7 +3490,7 @@
 
         <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, reauthenticateWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, reauthenticateWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, onSnapshot, doc, deleteDoc, getDocs, writeBatch, setDoc, updateDoc, addDoc, getDoc, query, where, orderBy, limit, runTransaction, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         
         // --- Firebase Configuration ---
@@ -8560,14 +8560,16 @@
             }
 
             async function handleLoginAndSync() {
-                loginStatusMessage.textContent = 'Redirecting to Google login...';
+                loginStatusMessage.textContent = 'Opening login window...';
                 loginStatusMessage.classList.remove('text-red-600', 'text-green-600');
                 const provider = new GoogleAuthProvider();
                 try {
-                    // Changed from signInWithPopup to signInWithRedirect for WebView compatibility
-                    await signInWithRedirect(auth, provider);
+                    await signInWithPopup(auth, provider);
                 } catch (error) {
-                    let message = `An error occurred: ${error.message}`;
+                    let message = `An error occurred: ${error.code}`;
+                    if (error.code === 'auth/popup-closed-by-user') {
+                        message = 'Login process was canceled.';
+                    }
                     loginStatusMessage.textContent = message;
                     loginStatusMessage.classList.add('text-red-600');
                     loginForSettings = false; 
@@ -15266,20 +15268,6 @@
             });
 
             if (auth) {
-                // 1. Handle the redirect result immediately on page load
-                getRedirectResult(auth).then((result) => {
-                    if (result && result.user) {
-                        console.log("Successfully authenticated via redirect:", result.user.email);
-                        // The onAuthStateChanged listener below will handle the UI updates automatically
-                    }
-                }).catch((error) => {
-                    console.error("Authentication Redirect Error:", error);
-                    loginStatusMessage.textContent = `Authentication failed: ${error.message}`;
-                    loginStatusMessage.classList.add('text-red-600');
-                    loginForSettings = false;
-                });
-
-                // 2. Listen for auth state changes
                 onAuthStateChanged(auth, async (user) => {
                     if (user) {
                         await initializeUserSession(user);
