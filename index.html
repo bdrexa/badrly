@@ -2051,22 +2051,44 @@
             </div>
         </div>
     </div>
-    <div id="password-modal" class="hidden fixed inset-0 bg-black/30 backdrop-blur-md flex items-center justify-center z-[105] p-4">
-        <div class="modal-enter w-full max-w-sm">
-            <div class="relative bg-white/70 backdrop-blur-xl p-6 sm:p-10 rounded-2xl shadow-2xl shadow-slate-400/20 text-center border border-white/50">
-                <div class="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-blue-500 to-cyan-400 text-white rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-lg shadow-blue-500/30">
-                    <i data-lucide="shield-check" class="w-10 h-10"></i>
+    <div id="password-modal" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[105] p-4 transition-opacity duration-300">
+        <div class="modal-enter w-full max-w-sm sm:max-w-md">
+            <div class="relative bg-white dark:bg-slate-900 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden text-right font-sans" dir="rtl">
+                
+                <!-- Classic Header -->
+                <div class="flex-shrink-0 flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-white dark:bg-slate-700 text-slate-700 dark:text-white rounded-lg flex items-center justify-center border border-slate-200 dark:border-slate-600 shadow-sm flex-shrink-0">
+                            <i data-lucide="lock" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 id="modal-title" class="text-lg font-bold text-slate-800 dark:text-white leading-tight">وصول المدير</h3>
+                            <p id="modal-message" class="text-xs text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-2">يرجى إدخال كلمة المرور للمتابعة.</p>
+                        </div>
+                    </div>
                 </div>
-                <h3 id="modal-title" class="text-2xl font-bold mb-2 text-slate-800">وصول المدير</h3>
-                <p id="modal-message" class="text-slate-500 mb-8">يرجى إدخال كلمة المرور للمتابعة.</p>
-                <div class="relative mb-2">
-                    <i data-lucide="lock" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"></i>
-                    <input type="password" id="password-input" class="w-full p-3 pl-12 input-field rounded-lg text-center tracking-widest text-lg bg-white/80 border-slate-300 placeholder:text-slate-400">
+
+                <!-- Body -->
+                <div class="p-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-2">كلمة المرور المطلوبة</label>
+                            <div class="relative">
+                                <i data-lucide="key-round" class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+                                <input type="password" id="password-input" class="w-full py-2.5 pr-10 pl-4 bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all text-slate-800 dark:text-slate-200 font-mono tracking-wider shadow-sm" placeholder="••••••••" autocomplete="off">
+                            </div>
+                            <div id="password-error-message" class="text-red-600 dark:text-red-400 text-xs font-bold h-5 mt-2 flex items-center gap-1.5 transition-all"></div>
+                        </div>
+                    </div>
                 </div>
-                <div id="password-error-message" class="text-red-600 font-bold h-8 mb-2 text-sm flex items-center justify-center gap-1"></div>
-                <div class="grid grid-cols-2 gap-4">
-                    <button id="modal-cancel-btn" class="w-full py-3 bg-white hover:bg-slate-100 text-slate-700 font-bold rounded-lg shadow-sm border border-slate-200/80 transition-all">إلغاء</button>
-                    <button id="modal-confirm-btn" class="w-full py-3 btn-primary rounded-lg btn-glow transform transition-transform hover:scale-105">تأكيد</button>
+
+                <!-- Footer -->
+                <div class="px-6 py-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-200 dark:border-slate-700 flex justify-end gap-3">
+                    <button id="modal-cancel-btn" class="px-5 py-2 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-bold shadow-sm transition-all active:scale-95">إلغاء</button>
+                    <button id="modal-confirm-btn" class="px-6 py-2 bg-slate-900 hover:bg-slate-800 dark:bg-indigo-600 dark:hover:bg-indigo-700 text-white rounded-lg text-sm font-bold shadow-sm transition-all active:scale-95 flex items-center justify-center gap-2">
+                        <i data-lucide="shield-check" class="w-4 h-4"></i>
+                        <span>تأكيد الإجراء</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -14438,25 +14460,28 @@
 
                 const renderCategory = (title, offerList, color, icon) => {
                     if (offerList.length === 0) return '';
-                    const isExpired = title === 'Expired Campaigns';
-                    const isActive = title === 'Active Campaigns';
-                    let borderColorClass = 'border-slate-400';
-                    if (color === 'green') borderColorClass = 'border-green-500';
-                    if (color === 'blue') borderColorClass = 'border-blue-500';
-                    if (color === 'gray') borderColorClass = 'border-gray-400';
+                    const isExpired = title === 'منتهية';
+                    const isActive = title === 'نشطة';
+                    
+                    let headerColorClass = 'text-slate-600 dark:text-slate-400';
+                    let iconColorClass = 'text-slate-400';
+                    if (color === 'green') { headerColorClass = 'text-emerald-700 dark:text-emerald-400'; iconColorClass = 'text-emerald-500'; }
+                    if (color === 'blue') { headerColorClass = 'text-indigo-700 dark:text-indigo-400'; iconColorClass = 'text-indigo-500'; }
+
+                    const btnBaseClass = "p-1.5 rounded text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors";
 
                     return `
-                        <div>
-                            <h5 class="font-bold text-sm uppercase text-slate-500 flex items-center gap-2 mb-2">
-                                <i data-lucide="${icon}" class="w-4 h-4 text-${color}-500"></i>
+                        <div class="mb-6">
+                            <h5 class="font-bold text-xs ${headerColorClass} bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-md inline-flex items-center gap-2 mb-3">
+                                <i data-lucide="${icon}" class="w-3.5 h-3.5 ${iconColorClass}"></i>
                                 ${title} (${offerList.length})
                             </h5>
-                            <div class="space-y-2">
+                            <div class="space-y-3">
                                 ${offerList.map(offer => {
-                                    const endDateStr = offer.endDate ? new Date(offer.endDate).toLocaleDateString('en-GB') : 'No expiry';
+                                    const endDateStr = offer.endDate ? new Date(offer.endDate).toLocaleDateString('ar-EG') : 'بدون انتهاء';
                                     
                                     let timerHTML = '';
-                                    if (title === 'Active Campaigns' && offer.startDate && offer.endDate) {
+                                    if (title === 'نشطة' && offer.startDate && offer.endDate) {
                                         const totalDuration = offer.endDate - offer.startDate;
                                         const elapsedDuration = now - offer.startDate;
                                         let progressPercentage = 0;
@@ -14471,62 +14496,62 @@
                                         
                                         let timeLeftString = '';
                                         if (timeLeftMs === 0) {
-                                            timeLeftString = 'Ended';
+                                            timeLeftString = 'انتهت';
                                         } else if (daysLeft > 0) {
-                                            timeLeftString = `${daysLeft}d ${hoursLeft}h left`;
+                                            timeLeftString = `متبقي ${daysLeft} يوم و ${hoursLeft} ساعة`;
                                         } else if (hoursLeft > 0) {
-                                            timeLeftString = `${hoursLeft}h ${minutesLeft}m left`;
+                                            timeLeftString = `متبقي ${hoursLeft} س و ${minutesLeft} د`;
                                         } else {
-                                            timeLeftString = `${minutesLeft}m left`;
+                                            timeLeftString = `متبقي ${minutesLeft} دقيقة`;
                                         }
 
                                         timerHTML = `
-                                            <div class="mt-2">
-                                                <div class="flex justify-between items-center">
-                                                    <span class="text-xs font-semibold text-slate-500">${timeLeftString}</span>
-                                                    <span class="text-xs font-semibold text-slate-500">${progressPercentage.toFixed(0)}%</span>
+                                            <div class="mt-3 pt-3 border-t border-slate-100 dark:border-slate-700/50">
+                                                <div class="flex justify-between items-center mb-1.5">
+                                                    <span class="text-[10px] font-bold text-slate-500">${timeLeftString}</span>
+                                                    <span class="text-[10px] font-mono text-slate-400">${progressPercentage.toFixed(0)}%</span>
                                                 </div>
-                                                <div class="campaign-timer">
-                                                    <div class="campaign-timer-progress" style="width: ${progressPercentage}%;"></div>
+                                                <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-1.5 overflow-hidden">
+                                                    <div class="bg-${color === 'green' ? 'emerald' : 'indigo'}-500 h-full rounded-full transition-all" style="width: ${progressPercentage}%;"></div>
                                                 </div>
                                             </div>
                                         `;
                                     }
 
                                     return `
-                                    <div class="group bg-white p-3 rounded-lg shadow-sm border-l-4 ${borderColorClass} flex flex-col transition-all duration-200 ease-out hover:shadow-lg hover:-translate-y-1">
-                                        <div class="flex items-start justify-between w-full">
-                                            <div class="flex-grow">
-                                                <p class="font-bold text-slate-800">${offer.name} - ${offer.amount} ج.م</p>
-                                                <div class="flex items-center gap-4 text-xs text-slate-500 mt-1">
-                                                    <span class="flex items-center gap-1.5">
-                                                        <i data-lucide="package" class="w-3 h-3"></i>
-                                                        <span>${offer.products.size} Products</span>
+                                    <div class="group bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm transition-all hover:border-slate-400 dark:hover:border-slate-500">
+                                        <div class="flex items-start justify-between">
+                                            <div>
+                                                <p class="font-bold text-sm text-slate-800 dark:text-slate-200 leading-tight">${offer.name}</p>
+                                                <div class="flex flex-wrap items-center gap-2 mt-2">
+                                                    <span class="inline-flex items-center gap-1 text-[10px] font-bold bg-rose-50 text-rose-600 dark:bg-rose-900/20 dark:text-rose-400 px-1.5 py-0.5 rounded border border-rose-200 dark:border-rose-800/50">
+                                                        خصم ${offer.amount} ج.م
                                                     </span>
-                                                    <span class="flex items-center gap-1.5">
-                                                        <i data-lucide="calendar-x" class="w-3 h-3"></i>
-                                                        <span>Expires: ${endDateStr}</span>
+                                                    <span class="inline-flex items-center gap-1 text-[10px] text-slate-500 bg-slate-100 dark:bg-slate-700 px-1.5 py-0.5 rounded">
+                                                        <i data-lucide="package" class="w-3 h-3"></i> ${offer.products.size} منتجات
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div class="flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 pl-2 flex-shrink-0">
+                                            
+                                            <!-- أزرار الإجراءات الكلاسيكية -->
+                                            <div class="flex items-center justify-end gap-1 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity pr-2 border-r border-slate-100 dark:border-slate-700">
                                                 ${isActive ? `
-                                                <button data-offer-name="${offer.name}" class="stop-offer-btn p-2 rounded-full text-slate-400 hover:bg-orange-100 hover:text-orange-600 transition-all duration-200 ease-out hover:scale-110" title="End Campaign Now">
+                                                <button data-offer-name="${offer.name}" class="stop-offer-btn ${btnBaseClass} hover:!text-orange-600 hover:!bg-orange-50 dark:hover:!bg-orange-900/30" title="إنهاء الآن">
                                                     <i data-lucide="pause-circle" class="w-4 h-4 pointer-events-none"></i>
                                                 </button>
                                                 ` : ''}
                                                 ${isExpired ? `
-                                                <button data-offer-name="${offer.name}" class="reactivate-offer-btn p-2 rounded-full text-slate-400 hover:bg-green-100 hover:text-green-600 transition-all duration-200 ease-out hover:scale-110" title="Reactivate Offer">
+                                                <button data-offer-name="${offer.name}" class="reactivate-offer-btn ${btnBaseClass} hover:!text-emerald-600 hover:!bg-emerald-50 dark:hover:!bg-emerald-900/30" title="إعادة تنشيط">
                                                     <i data-lucide="refresh-cw" class="w-4 h-4 pointer-events-none"></i>
                                                 </button>
                                                 ` : ''}
-                                                <button data-offer-name="${offer.name}" class="duplicate-offer-btn p-2 rounded-full text-slate-400 hover:bg-purple-100 hover:text-purple-600 transition-all duration-200 ease-out hover:scale-110" title="Duplicate Offer">
+                                                <button data-offer-name="${offer.name}" class="duplicate-offer-btn ${btnBaseClass} hover:!text-indigo-600 hover:!bg-indigo-50 dark:hover:!bg-indigo-900/30" title="تكرار العرض">
                                                     <i data-lucide="copy" class="w-4 h-4 pointer-events-none"></i>
                                                 </button>
-                                                <button data-offer-name="${offer.name}" class="edit-offer-btn p-2 rounded-full text-slate-400 hover:bg-blue-100 hover:text-blue-600 transition-all duration-200 ease-out hover:scale-110" title="Edit Offer">
+                                                <button data-offer-name="${offer.name}" class="edit-offer-btn ${btnBaseClass}" title="تعديل">
                                                     <i data-lucide="pencil" class="w-4 h-4 pointer-events-none"></i>
                                                 </button>
-                                                <button data-offer-name="${offer.name}" class="delete-offer-btn p-2 rounded-full text-slate-400 hover:bg-red-100 hover:text-red-600 transition-all duration-200 ease-out hover:scale-110" title="Delete Offer">
+                                                <button data-offer-name="${offer.name}" class="delete-offer-btn ${btnBaseClass} hover:!text-red-600 hover:!bg-red-50 dark:hover:!bg-red-900/30" title="حذف">
                                                     <i data-lucide="trash-2" class="w-4 h-4 pointer-events-none"></i>
                                                 </button>
                                             </div>
@@ -14540,10 +14565,7 @@
                     `;
                 };
 
-                existingOffersList.innerHTML += renderCategory('Active Campaigns', categorizedOffers.active.sort((a,b) => (b.endDate || 0) - (a.endDate || 0)), 'green', 'zap');
-                existingOffersList.innerHTML += renderCategory('Scheduled Campaigns', categorizedOffers.scheduled.sort((a,b) => (a.startDate || 0) - (b.startDate || 0)), 'blue', 'calendar-clock');
-                existingOffersList.innerHTML += renderCategory('Expired Campaigns', categorizedOffers.expired.sort((a,b) => (b.endDate || 0) - (a.endDate || 0)), 'gray', 'calendar-x');
-
+                existingOffersList.innerHTML += renderCategory('نشطة', categorizedOffers.active.sort((a,b) => (b.endDate || 0) - (a.endDate || 0)), 'green', 'zap');
                 if(existingOffersList.innerHTML.trim() === '') {
                     existingOffersList.innerHTML = '<p class="text-center text-slate-500 p-8">No campaigns found.</p>';
                 }
