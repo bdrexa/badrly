@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Badrly POS System</title>
+    <title>RAVIQO ERP</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23561C24%22></rect><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22central%22 text-anchor=%22middle%22 font-size=%2265%22 font-weight=%22bold%22 fill=%22white%22 font-family=%22sans-serif%22>B</text></svg>">
     
     <!-- PWA and App Icon Meta Tags -->
@@ -339,34 +339,34 @@
             animation: notification-dot-pulse 1.5s infinite;
         }
 
-        @keyframes slideDown {
+        @keyframes slideInFromTop {
             from {
                 opacity: 0;
-                transform: translateY(-100%);
+                transform: translateY(-150%) scale(0.95);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
             }
         }
         
-        @keyframes slideUp {
+        @keyframes slideOutToTop {
             from {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
             }
             to {
                 opacity: 0;
-                transform: translateY(-100%);
+                transform: translateY(-150%) scale(0.95);
             }
         }
 
         .notification-slide-in {
-            animation: slideDown 0.5s ease-out forwards;
+            animation: slideInFromTop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         
         .notification-slide-out {
-            animation: slideUp 0.5s ease-out forwards;
+            animation: slideOutToTop 0.4s ease-in forwards;
         }
 
         /* --- Cart Animations --- */
@@ -979,27 +979,27 @@
     <div id="custom-context-menu">
         <div class="context-menu-item" id="ctx-copy">
             <i data-lucide="copy" class="w-4 h-4"></i>
-            <span>نسخ</span>
+            <span>Copies</span>
         </div>
         <div class="context-menu-separator"></div>
         <div class="context-menu-item" id="ctx-paste">
             <i data-lucide="clipboard" class="w-4 h-4"></i>
-            <span>لصق</span>
+            <span>Paste</span>
         </div>
     </div>
 
-    <div id="top-notification" class="hidden fixed top-0 left-0 right-0 z-[250] p-4 flex justify-center pointer-events-none">
-        <div id="top-notification-content" class="w-full max-w-md text-center pointer-events-auto">
-            <div class="relative panel bg-white/80 backdrop-blur-xl p-4 sm:p-5 rounded-2xl shadow-2xl shadow-slate-300/20 flex items-start gap-4">
-                 <div id="notification-icon-container" class="w-12 h-12 flex-shrink-0 text-white rounded-xl flex items-center justify-center shadow-lg">
-                    <i id="notification-icon" data-lucide="info" class="w-7 h-7"></i>
+    <div id="top-notification" class="hidden fixed top-6 left-0 right-0 z-[400] p-4 flex justify-center pointer-events-none">
+        <div id="top-notification-content" class="w-auto max-w-sm sm:max-w-lg text-center pointer-events-auto">
+            <div class="relative bg-white/90 dark:bg-[#161616]/90 backdrop-blur-xl border border-slate-200/50 dark:border-white/10 p-2 pr-4 sm:pr-5 rounded-full shadow-2xl shadow-slate-300/30 dark:shadow-none flex items-center gap-3">
+                 <div id="notification-icon-container" class="w-8 h-8 flex-shrink-0 text-white rounded-full flex items-center justify-center shadow-sm">
+                    <i id="notification-icon" data-lucide="info" class="w-4 h-4"></i>
                 </div>
-                <div class="flex-grow text-left">
-                    <h3 id="notification-title" class="text-lg font-bold">Notification</h3>
-                    <p id="notification-message" class="text-sm mt-1"></p>
+                <div class="flex-grow text-left flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-2 truncate">
+                    <h3 id="notification-title" class="text-sm font-bold text-slate-800 dark:text-white whitespace-nowrap">Notification</h3>
+                    <p id="notification-message" class="text-xs text-slate-600 dark:text-slate-300 truncate max-w-[200px] sm:max-w-[300px]"></p>
                 </div>
-                <button id="notification-close-btn" class="p-2 rounded-full text-slate-500 hover:bg-slate-200/60 transition-colors flex-shrink-0">
-                    <i data-lucide="x" class="w-5 h-5"></i>
+                <button id="notification-close-btn" class="p-1.5 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition-colors flex-shrink-0 ml-1">
+                    <i data-lucide="x" class="w-4 h-4 pointer-events-none"></i>
                 </button>
             </div>
         </div>
@@ -1008,7 +1008,7 @@
     <!-- مؤشر النسخ الاحتياطي العام (الجديد) -->
     <div id="global-backup-indicator" class="hidden fixed top-4 left-1/2 transform -translate-x-1/2 z-[300] bg-slate-900/90 backdrop-blur text-white px-5 py-2.5 rounded-full shadow-xl flex items-center gap-3 font-bold text-sm transition-all duration-300 border border-slate-700/50">
         <i data-lucide="refresh-cw" class="animate-spin w-4 h-4 text-sky-400"></i>
-        <span>جاري النسخ الاحتياطي السحابي...</span>
+        <span>Cloud backup in progress...</span>
     </div>
 
     <div id="login-view" class="relative flex items-center justify-center min-h-screen p-4 bg-slate-50 dark:bg-[#0a0a0a] overflow-hidden transition-colors duration-500">
@@ -1025,22 +1025,25 @@
         </button>
 
         <div class="login-panel-enter w-full max-w-md text-center z-10">
-            <!-- Sleek Glass Logo Wrapper -->
-            <div class="w-32 h-32 mx-auto mb-8 rounded-full shadow-2xl shadow-slate-300/50 dark:shadow-black/50 overflow-hidden transform hover:scale-105 transition-transform duration-500">
-                <img src="https://raw.githubusercontent.com/bdrexa/badrly/refs/heads/main/logo.png" alt="Logo" class="w-full h-full object-cover">
+             <!-- Sleek Glass Logo Wrapper -->
+            <div class="w-200 sm:w-200 mx-auto mb-8 flex items-center justify-center transform hover:scale-105 transition-transform duration-500">
+                <!-- Light Mode Logo -->
+                <img src="https://raw.githubusercontent.com/bdrexa/badrly/refs/heads/main/logo.png" alt="Logo Light" class="block dark:hidden w-full h-auto object-contain drop-shadow-2xl">
+                <!-- Dark Mode Logo -->
+                <img src="https://raw.githubusercontent.com/bdrexa/badrly/refs/heads/main/logo%20dark.png" alt="Logo Dark" class="hidden dark:block w-full h-auto object-contain drop-shadow-2xl">
             </div>
             
-            <h1 class="text-4xl sm:text-5xl font-black text-slate-800 dark:text-white mb-4 tracking-tight drop-shadow-sm">Badrly POS System</h1>
-            <p class="text-slate-600 dark:text-slate-400 text-lg mb-12 font-medium">نظامك المتكامل لإدارة المبيعات والمخزون بسهولة وأمان.</p>
+            <h1 class="text-3xl sm:text-4xl font-black text-slate-800 dark:text-white mb-4 tracking-tight drop-shadow-sm">RAVIQO ERP</h1>
+            <p class="text-slate-500 dark:text-slate-300 text-lg mb-12 font-medium">A management you can trust. A growing business.</p>
 
             <div class="space-y-4 max-w-[18rem] mx-auto">
                 <button id="login-btn" class="w-full flex items-center justify-center gap-3 bg-white/60 hover:bg-white/90 dark:bg-white/5 dark:hover:bg-white/10 backdrop-blur-md border border-white/50 dark:border-white/10 text-slate-800 dark:text-white font-bold py-3.5 px-4 rounded-2xl shadow-sm hover:shadow-md transition-all transform hover:-translate-y-0.5">
                     <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.222,0-9.657-3.356-11.303-7.962l-6.571,4.819C9.656,39.663,16.318,44,24,44z"></path><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.574l6.19,5.238C42.021,35.596,44,30.138,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path></svg>
-                    <span class="text-[15px]">متابعة باستخدام Google</span>
+                    <span class="text-[15px]">Continue with Google</span>
                 </button>
                 <button id="owner-settings-btn" class="w-full flex items-center justify-center gap-3 bg-slate-800/5 hover:bg-slate-800/10 dark:bg-black/20 dark:hover:bg-black/40 backdrop-blur-md border border-slate-800/5 dark:border-white/5 text-slate-600 dark:text-slate-300 font-bold py-3.5 px-4 rounded-2xl shadow-sm transition-all transform hover:-translate-y-0.5">
                     <i data-lucide="shield-check" class="w-5 h-5 opacity-70 flex-shrink-0"></i>
-                    <span class="text-[15px]">دخول المالك</span>
+                    <span class="text-[15px]">Owner Access</span>
                 </button>
             </div>
             <p id="login-status-message" class="text-slate-500 font-medium mt-6 h-6 transition-all text-sm"></p>
@@ -1200,7 +1203,7 @@
                 <div class="w-full lg:w-[380px] xl:w-[420px] flex-shrink-0 flex flex-col h-[75vh] lg:h-full bg-white dark:bg-[#111] border border-slate-200/60 dark:border-white/10 rounded-[2rem] sm:rounded-[2.5rem] shadow-2xl relative overflow-hidden">
                     
                     <!-- Sidebar Header -->
-                    <div class="px-6 py-5 border-b border-slate-100 dark:border-white/5 flex justify-between items-center bg-slate-50/50 dark:bg-transparent backdrop-blur-md z-10">
+                    <div class="px-6 py-5 flex justify-between items-center z-10">
                         <h2 id="invoice-title" class="text-xl font-black text-slate-800 dark:text-white flex items-center gap-2 tracking-tight pointer-events-none">
                             <i data-lucide="receipt" class="w-5 h-5 text-indigo-500"></i> Bill of sale
                         </h2>
@@ -1454,6 +1457,7 @@
                                 <th class="py-3 px-6 text-right text-[11px] font-bold uppercase tracking-wider">الفاتورة والتاريخ</th>
                                 <th class="py-3 px-6 text-right text-[11px] font-bold uppercase tracking-wider">بيانات العميل</th>
                                 <th class="py-3 px-6 text-right text-[11px] font-bold uppercase tracking-wider">المالية</th>
+                                <th class="py-3 px-4 text-center text-[11px] font-bold uppercase tracking-wider w-24">البائع</th>
                                 <th class="py-3 px-4 text-center text-[11px] font-bold uppercase tracking-wider w-32">الحالة</th>
                                 <th class="py-3 px-4 text-center text-[11px] font-bold uppercase tracking-wider w-20">التصديق</th>
                                 <th class="py-3 px-6 text-left text-[11px] font-bold uppercase tracking-wider w-48">إجراءات</th>
@@ -2051,6 +2055,77 @@
             </div>
         </div>
     </div>
+
+    <!-- Interface Settings Modal (NEW) -->
+    <div id="interface-settings-modal" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[260] p-4 transition-opacity duration-300">
+        <div class="modal-enter w-full max-w-sm">
+             <div class="relative bg-white/90 dark:bg-[#161616]/90 backdrop-blur-2xl rounded-2xl shadow-2xl overflow-hidden border border-white/50 dark:border-white/10 font-sans" dir="ltr">
+                <div class="flex-shrink-0 flex items-center justify-between px-6 py-4 border-b border-black/5 dark:border-white/5">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-black/5 dark:bg-white/10 flex items-center justify-center">
+                            <i data-lucide="monitor-smartphone" class="w-4 h-4 text-slate-700 dark:text-slate-300"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-800 dark:text-white">Interface Settings</h3>
+                    </div>
+                    <button id="interface-settings-close-btn" class="w-8 h-8 flex items-center justify-center rounded-full bg-black/5 dark:bg-white/10 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white transition-all">
+                        <i data-lucide="x" class="w-4 h-4 pointer-events-none"></i>
+                    </button>
+                </div>
+                <div class="p-6 space-y-4">
+                    <!-- Zoom -->
+                    <div class="flex items-center justify-between text-slate-600 dark:text-slate-300 bg-black/5 dark:bg-white/5 p-3 rounded-xl border border-transparent dark:border-white/5">
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="zoom-in" class="w-5 h-5 text-slate-500 dark:text-slate-400"></i>
+                            <span class="font-semibold text-sm">Screen Zoom</span>
+                        </div>
+                        <div class="flex items-center gap-1 bg-white dark:bg-black/40 rounded-lg p-1 border border-black/5 dark:border-white/10 shadow-sm">
+                            <button id="zoom-out-btn" class="w-7 h-7 flex items-center justify-center rounded-md hover:bg-slate-100 dark:hover:bg-white/10 text-slate-600 dark:text-slate-300 transition-all"><i data-lucide="minus" class="w-3 h-3 pointer-events-none"></i></button>
+                            <span id="zoom-level-display" class="text-xs font-mono font-bold w-9 text-center text-slate-800 dark:text-white">100%</span>
+                            <button id="zoom-in-btn" class="w-7 h-7 flex items-center justify-center rounded-md hover:bg-slate-100 dark:hover:bg-white/10 text-slate-600 dark:text-slate-300 transition-all"><i data-lucide="plus" class="w-3 h-3 pointer-events-none"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- DPI -->
+                    <div class="flex items-center justify-between text-slate-600 dark:text-slate-300 bg-black/5 dark:bg-white/5 p-3 rounded-xl border border-transparent dark:border-white/5">
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="layout-grid" class="w-5 h-5 text-slate-500 dark:text-slate-400"></i>
+                            <span class="font-semibold text-sm">UI Density</span>
+                        </div>
+                        <select id="dpi-scale-select" class="bg-white dark:bg-black/40 border border-black/5 dark:border-white/10 rounded-lg text-xs font-bold py-2 pl-3 pr-8 text-slate-800 dark:text-white outline-none cursor-pointer shadow-sm appearance-none">
+                            <option value="16">Normal (100%)</option>
+                            <option value="14">Compact (85%)</option>
+                            <option value="12">Dense (75%)</option>
+                        </select>
+                    </div>
+
+                    <!-- Theme -->
+                    <button id="theme-toggle-btn" class="w-full flex items-center justify-between p-3 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 rounded-xl transition-colors text-slate-600 dark:text-slate-300 border border-transparent dark:border-white/5 group">
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="sun" class="w-5 h-5 text-slate-500 dark:text-slate-400 light-icon group-hover:text-amber-500 transition-colors"></i>
+                            <i data-lucide="moon" class="w-5 h-5 text-slate-500 dark:text-slate-400 dark-icon hidden group-hover:text-blue-400 transition-colors"></i>
+                            <span class="font-semibold text-sm text-slate-800 dark:text-white">Appearance</span>
+                        </div>
+                        <span class="text-xs font-bold text-slate-500 dark:text-slate-400 bg-white dark:bg-black/40 px-2 py-1 rounded shadow-sm border border-black/5 dark:border-white/10 light-text">Light Mode</span>
+                        <span class="text-xs font-bold text-slate-500 dark:text-slate-400 bg-white dark:bg-black/40 px-2 py-1 rounded shadow-sm border border-black/5 dark:border-white/10 dark-text hidden">Dark Mode</span>
+                    </button>
+
+                    <!-- Sound -->
+                    <button id="sound-toggle-btn" class="w-full flex items-center justify-between p-3 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 rounded-xl transition-colors text-slate-600 dark:text-slate-300 border border-transparent dark:border-white/5 group">
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="volume-2" class="w-5 h-5 text-slate-500 dark:text-slate-400 sound-on-icon group-hover:text-emerald-500 transition-colors"></i>
+                            <i data-lucide="volume-x" class="w-5 h-5 text-slate-500 dark:text-slate-400 sound-off-icon hidden group-hover:text-rose-500 transition-colors"></i>
+                            <span class="font-semibold text-sm text-slate-800 dark:text-white">Sound Effects</span>
+                        </div>
+                        <div class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="sound-toggle-checkbox" class="sr-only peer" pointer-events-none>
+                            <div class="w-9 h-5 bg-slate-300 dark:bg-slate-600 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="password-modal" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[105] p-4 transition-opacity duration-300">
         <div class="modal-enter w-full max-w-sm sm:max-w-md">
             <div class="relative bg-white dark:bg-slate-900 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden text-right font-sans" dir="rtl">
@@ -2707,7 +2782,7 @@
                     </div>
                     <div>
                         <label for="invoice-shop-name-input" class="block text-sm font-medium text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="store" class="w-4 h-4 text-slate-400"></i><span>اسم المتجر</span></label>
-                        <input type="text" id="invoice-shop-name-input" class="w-full p-3 input-field rounded-lg border-slate-200" placeholder="مثال: Badrly POS System">
+                        <input type="text" id="invoice-shop-name-input" class="w-full p-3 input-field rounded-lg border-slate-200" placeholder="مثال: Sellora ERP">
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
@@ -3430,18 +3505,18 @@
         </div>
     </div>
 
-    <div id="renewal-notification-modal" class="hidden fixed top-0 left-0 right-0 z-[250] p-4 flex justify-center pointer-events-none">
-        <div id="renewal-notification-content" class="w-full max-w-2xl text-center pointer-events-auto">
-            <div class="relative panel bg-white/80 backdrop-blur-xl p-4 sm:p-5 rounded-2xl shadow-2xl shadow-slate-300/20 flex items-start gap-4">
-                 <div id="renewal-icon-container" class="w-12 h-12 flex-shrink-0 text-white rounded-xl flex items-center justify-center shadow-lg">
-                    <i id="renewal-icon" data-lucide="bell-ring" class="w-7 h-7"></i>
+    <div id="renewal-notification-modal" class="hidden fixed top-6 left-0 right-0 z-[400] p-4 flex justify-center pointer-events-none">
+        <div id="renewal-notification-content" class="w-auto max-w-lg text-center pointer-events-auto">
+            <div class="relative bg-white/90 dark:bg-[#161616]/90 backdrop-blur-xl border border-slate-200/50 dark:border-white/10 p-2 pr-4 sm:pr-5 rounded-full shadow-2xl shadow-slate-300/30 dark:shadow-none flex items-center gap-3">
+                 <div id="renewal-icon-container" class="w-8 h-8 flex-shrink-0 text-white rounded-full flex items-center justify-center shadow-sm">
+                    <i id="renewal-icon" data-lucide="bell-ring" class="w-4 h-4"></i>
                 </div>
-                <div class="flex-grow text-left">
-                    <h3 id="renewal-title" class="text-lg font-bold"></h3>
-                    <p id="renewal-message" class="text-sm mt-1">Your access will expire in <span id="renewal-time-left" class="font-bold"></span>. Please contact the owner to renew your subscription.</p>
+                <div class="flex-grow text-left flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-2 truncate">
+                    <h3 id="renewal-title" class="text-sm font-bold text-slate-800 dark:text-white whitespace-nowrap"></h3>
+                    <p id="renewal-message" class="text-xs text-slate-600 dark:text-slate-300 truncate max-w-[200px] sm:max-w-md">Access expires in <span id="renewal-time-left" class="font-bold"></span></p>
                 </div>
-                <button id="renewal-close-btn" class="p-2 rounded-full text-slate-500 hover:bg-slate-200/60 transition-colors flex-shrink-0">
-                    <i data-lucide="x" class="w-5 h-5"></i>
+                <button id="renewal-close-btn" class="p-1.5 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition-colors flex-shrink-0 ml-1">
+                    <i data-lucide="x" class="w-4 h-4 pointer-events-none"></i>
                 </button>
             </div>
         </div>
@@ -3783,12 +3858,12 @@
             let authorizedUsers = []; 
             let workerPermissions = {
                 cashiers: [], 
-                shopName: 'Badrly POS System',
-                branchInfo: '63511 Saad Zaghloul',
+                shopName: 'Sellora ERP',
+                branchInfo: '',
                 machineNumber: 'LPQ80-ESC',
-                contactNumber: '01014175070',
-                facebookLink: 'https://www.facebook.com/gedar.fayoum/',
-                invoiceAddress: 'Address\nLast wall of the general hospital, in front of Abu Salah butchery and next to the American laundry',
+                contactNumber: '01069913150',
+                facebookLink: 'https://www.badre.site/',
+                invoiceAddress: '',
                 returnPolicy: 'Return and Exchange Policy: Returns or exchanges are accepted only if the product is in its original condition, not scratched or broken. If it was sealed, the packaging must be intact. Any product that violates this policy will not be accepted for return.'
             };
             let activeTimers = {};
@@ -3798,6 +3873,8 @@
             let currentlyViewingUnconfirmedId = null;
             let currentReportData = null;
             let currentTheme = 'light';
+            let currentZoom = parseInt(localStorage.getItem('Sellora ERP-zoom')) || 100;
+            let currentDpiBase = parseInt(localStorage.getItem('Sellora ERP-dpi')) || 16;
             let latestVersionNumber = null;
             let soundEnabled = true;
             let latestBroadcast = null;
@@ -3811,8 +3888,8 @@
             let lastSyncTimestamp = new Date();
 
             // --- Background Sync Manager (Local Queue - لعمليات البيع فقط) ---
-            const getSyncQueue = () => JSON.parse(localStorage.getItem('badrly_sales_sync_queue') || '[]');
-            const setSyncQueue = (q) => localStorage.setItem('badrly_sales_sync_queue', JSON.stringify(q));
+            const getSyncQueue = () => JSON.parse(localStorage.getItem('Sellora ERP_sales_sync_queue') || '[]');
+            const setSyncQueue = (q) => localStorage.setItem('Sellora ERP_sales_sync_queue', JSON.stringify(q));
 
             const updateSyncUI = (count, isSyncing = false) => {
                 const indicator = document.getElementById('sync-queue-indicator');
@@ -4602,6 +4679,39 @@
                 }
             };
 
+            const updateThemeUI = () => {
+                const modal = document.getElementById('interface-settings-modal');
+                if (!modal) return;
+                const lightIcon = modal.querySelector('.light-icon');
+                const darkIcon = modal.querySelector('.dark-icon');
+                const lightText = modal.querySelector('.light-text');
+                const darkText = modal.querySelector('.dark-text');
+                
+                if (currentTheme === 'dark') {
+                    lightIcon?.classList.add('hidden');
+                    darkIcon?.classList.remove('hidden');
+                    lightText?.classList.add('hidden');
+                    darkText?.classList.remove('hidden');
+                } else {
+                    darkIcon?.classList.add('hidden');
+                    lightIcon?.classList.remove('hidden');
+                    darkText?.classList.add('hidden');
+                    lightText?.classList.remove('hidden');
+                }
+            };
+
+            const updateSoundUI = () => {
+                const modal = document.getElementById('interface-settings-modal');
+                if (!modal) return;
+                const soundOnIcon = modal.querySelector('.sound-on-icon');
+                const soundOffIcon = modal.querySelector('.sound-off-icon');
+                const checkbox = document.getElementById('sound-toggle-checkbox');
+                
+                if (soundOnIcon) soundOnIcon.classList.toggle('hidden', !soundEnabled);
+                if (soundOffIcon) soundOffIcon.classList.toggle('hidden', soundEnabled);
+                if (checkbox) checkbox.checked = soundEnabled;
+            };
+
             const applyTheme = (theme) => {
                 document.documentElement.setAttribute('data-theme', theme);
                 if (theme === 'dark') {
@@ -4610,7 +4720,8 @@
                     document.documentElement.classList.remove('dark');
                 }
                 currentTheme = theme;
-                localStorage.setItem('badrly-pos-theme', theme);
+                localStorage.setItem('Sellora ERP-pos-theme', theme);
+                updateThemeUI();
             };
 
             const toggleTheme = () => {
@@ -4624,7 +4735,7 @@
             };
 
             const loadTheme = () => {
-                const savedTheme = localStorage.getItem('badrly-pos-theme');
+                const savedTheme = localStorage.getItem('Sellora ERP-pos-theme');
                 const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
                 if (savedTheme) {
                     applyTheme(savedTheme);
@@ -4635,14 +4746,65 @@
                 }
             };
 
+            const applyZoom = (level) => {
+                currentZoom = Math.min(Math.max(level, 50), 150); // Limit zoom between 50% and 150%
+                document.body.style.zoom = `${currentZoom}%`;
+                localStorage.setItem('Sellora ERP-zoom', currentZoom);
+                const display = document.getElementById('zoom-level-display');
+                if(display) display.textContent = `${currentZoom}%`;
+            };
+
+            const applyDPI = (basePx) => {
+                currentDpiBase = basePx;
+                document.documentElement.style.fontSize = `${basePx}px`;
+                localStorage.setItem('Sellora ERP-dpi', basePx);
+                const dpiSelect = document.getElementById('dpi-scale-select');
+                if (dpiSelect) dpiSelect.value = currentDpiBase;
+            };
+
             const loadSoundSettings = () => {
-                const savedSoundSetting = localStorage.getItem('badrly-pos-sound');
+                const savedSoundSetting = localStorage.getItem('Sellora ERP-pos-sound');
                 if (savedSoundSetting !== null) {
                     soundEnabled = savedSoundSetting === 'true';
                 } else {
                     soundEnabled = true; // Default to on
                 }
+                updateSoundUI();
             };
+
+            // Setup Interface Modal Events globally
+            const interfaceSettingsModal = document.getElementById('interface-settings-modal');
+            
+            document.getElementById('interface-settings-close-btn')?.addEventListener('click', () => {
+                interfaceSettingsModal.classList.add('hidden');
+            });
+
+            document.getElementById('theme-toggle-btn')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                toggleTheme();
+            });
+
+            document.getElementById('zoom-in-btn')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                applyZoom(currentZoom + 10);
+            });
+
+            document.getElementById('zoom-out-btn')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                applyZoom(currentZoom - 10);
+            });
+
+            document.getElementById('dpi-scale-select')?.addEventListener('change', (e) => {
+                applyDPI(parseInt(e.target.value, 10));
+            });
+
+            document.getElementById('sound-toggle-btn')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                soundEnabled = !soundEnabled;
+                localStorage.setItem('Sellora ERP-pos-sound', soundEnabled);
+                updateSoundUI();
+                if (soundEnabled) playSound('success');
+            });
 
             const editExpenseModal = document.getElementById('edit-expense-modal');
             const editExpenseIdInput = document.getElementById('edit-expense-id');
@@ -4773,7 +4935,7 @@
                     messageEl.textContent = message;
                     titleEl.textContent = title;
 
-                    iconContainer.className = 'w-12 h-12 flex-shrink-0 text-white rounded-xl flex items-center justify-center shadow-lg';
+                    iconContainer.className = 'w-8 h-8 flex-shrink-0 text-white rounded-full flex items-center justify-center shadow-sm';
                     
                     switch(type) {
                         case 'success':
@@ -4943,22 +5105,20 @@
                 const timeLeftEl = document.getElementById('renewal-time-left');
 
                 // Reset classes
-                iconContainer.className = 'w-12 h-12 flex-shrink-0 text-white rounded-xl flex items-center justify-center shadow-lg';
-                titleEl.className = 'text-lg font-bold';
+                iconContainer.className = 'w-8 h-8 flex-shrink-0 text-white rounded-full flex items-center justify-center shadow-sm';
+                titleEl.className = 'text-sm font-bold text-slate-800 dark:text-white whitespace-nowrap';
                 if(timeLeftEl) timeLeftEl.className = 'font-bold';
                 
                 if (isUrgent) {
                     iconContainer.classList.add('bg-gradient-to-br', 'from-red-500', 'to-orange-500', 'shadow-red-500/30');
                     if(iconEl) iconEl.dataset.lucide = 'alert-triangle';
-                    if(timeLeftEl) timeLeftEl.classList.add('text-red-700');
+                    if(timeLeftEl) timeLeftEl.classList.add('text-red-600', 'dark:text-red-400');
                     titleEl.textContent = "Subscription Warning";
-                    titleEl.classList.add('text-red-700');
                 } else {
                     iconContainer.classList.add('bg-gradient-to-br', 'from-amber-500', 'to-orange-400', 'shadow-amber-500/30');
                     if(iconEl) iconEl.dataset.lucide = 'bell-ring';
-                    if(timeLeftEl) timeLeftEl.classList.add('text-amber-600');
-                    titleEl.textContent = "Subscription Renewal Notice";
-                    titleEl.classList.add('text-amber-700');
+                    if(timeLeftEl) timeLeftEl.classList.add('text-amber-600', 'dark:text-amber-400');
+                    titleEl.textContent = "Renewal Notice";
                 }
 
                 const renewalDays = Math.floor(timeLeft / 86400);
@@ -7106,26 +7266,26 @@
                             statusHTML += `<div class="mt-1"><span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800 text-[11px] font-bold shadow-sm"><i data-lucide="edit-3" class="w-3 h-3"></i> معدلة</span></div>`;
                         }
 
-                        // --- Actions Column (Classic minimalist buttons) ---
-                        let actionsHTML = `<div class="flex items-center justify-start gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity w-full">`;
+                        // --- Actions Column (Improved Visibility) ---
+                        let actionsHTML = `<div class="flex flex-wrap items-center justify-start gap-1.5 w-full">`;
                         
-                        const btnBaseClass = "p-1.5 rounded text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors";
+                        const btnBaseClass = "p-2 rounded-lg bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow hover:-translate-y-0.5 transition-all";
                         
                         actionsHTML += `
-                            <button data-id="${invoice.id}" class="view-invoice-details-btn ${btnBaseClass}" title="عرض التفاصيل"><i data-lucide="eye" class="h-4 w-4"></i></button>
-                            <button data-id="${invoice.id}" class="print-saved-invoice-btn ${btnBaseClass}" title="طباعة"><i data-lucide="printer" class="h-4 w-4"></i></button>
-                            <button data-firestore-id="${invoice.firestoreId || ''}" data-id="${invoice.id}" class="return-invoice-btn ${btnBaseClass} hover:!text-amber-600 hover:!bg-amber-50 dark:hover:!bg-amber-900/30" title="استرجاع"><i data-lucide="undo-2" class="h-4 w-4"></i></button>
+                            <button data-id="${invoice.id}" class="view-invoice-details-btn ${btnBaseClass} hover:text-blue-600 dark:hover:text-blue-400" title="عرض التفاصيل"><i data-lucide="eye" class="h-4 w-4 pointer-events-none"></i></button>
+                            <button data-id="${invoice.id}" class="print-saved-invoice-btn ${btnBaseClass} hover:text-slate-800 dark:hover:text-white" title="طباعة"><i data-lucide="printer" class="h-4 w-4 pointer-events-none"></i></button>
+                            <button data-firestore-id="${invoice.firestoreId || ''}" data-id="${invoice.id}" class="return-invoice-btn ${btnBaseClass} hover:text-amber-600 hover:border-amber-300 dark:hover:border-amber-700" title="استرجاع"><i data-lucide="undo-2" class="h-4 w-4 pointer-events-none"></i></button>
                         `;
 
                         if (canManage) {
-                            const verifyClass = isVerified ? "text-teal-600 hover:bg-teal-50 dark:hover:bg-teal-900/30" : "hover:text-teal-600 hover:bg-teal-50 dark:hover:bg-teal-900/30";
-                            actionsHTML += `<button data-firestore-id="${invoice.firestoreId || ''}" data-verified="${isVerified}" class="verify-invoice-btn ${btnBaseClass} ${verifyClass}" title="${isVerified ? 'إلغاء التصديق' : 'تصديق'}"><i data-lucide="check-check" class="h-4 w-4"></i></button>`;
+                            const verifyClass = isVerified ? "text-teal-600 bg-teal-50 border-teal-200 dark:bg-teal-900/30 dark:border-teal-800" : "hover:text-teal-600 hover:border-teal-300 dark:hover:border-teal-700";
+                            actionsHTML += `<button data-firestore-id="${invoice.firestoreId || ''}" data-verified="${isVerified}" class="verify-invoice-btn ${btnBaseClass} ${verifyClass}" title="${isVerified ? 'إلغاء التصديق' : 'تصديق'}"><i data-lucide="check-check" class="h-4 w-4 pointer-events-none"></i></button>`;
                             
-                            const noteClass = hasManagerNote ? "text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-900/30" : "hover:text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-900/30";
-                            actionsHTML += `<button data-firestore-id="${invoice.firestoreId || ''}" data-id="${invoice.id}" class="manager-note-btn ${btnBaseClass} ${noteClass}" title="ملاحظة"><i data-lucide="sticky-note" class="h-4 w-4"></i></button>`;
+                            const noteClass = hasManagerNote ? "text-amber-600 bg-amber-50 border-amber-200 dark:bg-amber-900/30 dark:border-amber-800" : "hover:text-amber-600 hover:border-amber-300 dark:hover:border-amber-700";
+                            actionsHTML += `<button data-firestore-id="${invoice.firestoreId || ''}" data-id="${invoice.id}" class="manager-note-btn ${btnBaseClass} ${noteClass}" title="ملاحظة"><i data-lucide="sticky-note" class="h-4 w-4 pointer-events-none"></i></button>`;
                             
-                            actionsHTML += `<button data-firestore-id="${invoice.firestoreId || ''}" data-id="${invoice.id}" class="edit-invoice-btn ${btnBaseClass} hover:!text-indigo-600 hover:!bg-indigo-50 dark:hover:!bg-indigo-900/30" title="تعديل"><i data-lucide="pencil" class="h-4 w-4"></i></button>`;
-                            actionsHTML += `<button data-id="${invoice.id}" data-firestore-id="${invoice.firestoreId || ''}" class="delete-invoice-btn ${btnBaseClass} hover:!text-red-600 hover:!bg-red-50 dark:hover:!bg-red-900/30" title="حذف"><i data-lucide="trash-2" class="h-4 w-4"></i></button>`;
+                            actionsHTML += `<button data-firestore-id="${invoice.firestoreId || ''}" data-id="${invoice.id}" class="edit-invoice-btn ${btnBaseClass} hover:text-indigo-600 hover:border-indigo-300 dark:hover:border-indigo-700" title="تعديل"><i data-lucide="pencil" class="h-4 w-4 pointer-events-none"></i></button>`;
+                            actionsHTML += `<button data-id="${invoice.id}" data-firestore-id="${invoice.firestoreId || ''}" class="delete-invoice-btn ${btnBaseClass} hover:text-red-600 hover:border-red-300 dark:hover:border-red-700" title="حذف"><i data-lucide="trash-2" class="h-4 w-4 pointer-events-none"></i></button>`;
                         }
                         actionsHTML += `</div>`;
 
@@ -7152,6 +7312,9 @@
                                     <span class="font-black text-sm text-slate-800 dark:text-slate-100 font-mono" dir="ltr">${formatMoney(invoice.total)} <span class="text-[9px] font-bold text-slate-400">EGP</span></span>
                                     <span class="text-[10px] font-bold text-slate-500 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded border border-slate-200 dark:border-slate-700">${invoice.paymentMethod}</span>
                                 </div>
+                            </td>
+                            <td class="py-4 px-4 align-middle text-center">
+                                <span class="text-xs font-bold text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded border border-slate-200 dark:border-slate-700 truncate max-w-[100px] inline-block">${invoice.sellerName || 'N/A'}</span>
                             </td>
                             <td class="py-4 px-4 align-middle text-center">
                                 ${statusHTML}
@@ -7227,10 +7390,14 @@
                     filteredReturns = filteredReturns.filter(ret => ret.timestamp <= endDate.getTime());
                 }
 
-                let totalCash = 0, totalVodafone = 0, totalInstaPay = 0, totalCredit = 0, grandTotal = 0;
+                let totalCash = 0, totalVodafone = 0, totalInstaPay = 0, totalCredit = 0, grandTotal = 0, totalDue = 0;
                 
                 filteredInvoices.forEach(invoice => {
                     grandTotal += invoice.tendered;
+                    const dueAmount = invoice.total - invoice.tendered;
+                    if (dueAmount > 0.01) {
+                        totalDue += dueAmount;
+                    }
                     if (invoice.paymentMethod === 'Cash') totalCash += invoice.tendered;
                     else if (invoice.paymentMethod === 'Vodafone Cash') totalVodafone += invoice.tendered;
                     else if (invoice.paymentMethod === 'InstaPay') totalInstaPay += invoice.tendered;
@@ -7253,6 +7420,18 @@
                                     <i data-lucide="wallet" class="w-5 h-5 text-white"></i>
                                 </div>
                             </div>
+
+                            <!-- Due Total Card -->
+                            <div class="bg-gradient-to-br from-orange-500 to-amber-500 p-4 rounded-2xl shadow-md shadow-orange-500/20 flex items-center justify-between text-white">
+                                <div>
+                                    <p class="text-xs font-medium text-orange-100 mb-1">إجمالي المستحقات (آجل)</p>
+                                    <p class="text-xl font-black tracking-tight font-mono">${totalDue.toFixed(2)} <span class="text-[10px] font-bold text-orange-200">EGP</span></p>
+                                </div>
+                                <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                                    <i data-lucide="hand-coins" class="w-4 h-4 text-white"></i>
+                                </div>
+                            </div>
+
                             <!-- Secondary Cards -->
                             <div class="grid grid-cols-2 gap-3">
                                 <div class="bg-slate-50 dark:bg-slate-800/50 p-3 rounded-2xl border border-slate-200 dark:border-slate-700 flex flex-col items-center text-center gap-2">
@@ -8331,6 +8510,49 @@
                 invoiceDetailsView.classList.add('flex');
             };
             
+            const checkAndAlertDueSalaries = () => {
+                if (!workerPermissions.cashiers || workerPermissions.cashiers.length === 0) return;
+                
+                let dueEmployees = [];
+                const today = new Date();
+                today.setHours(0,0,0,0);
+
+                workerPermissions.cashiers.forEach(employee => {
+                    const employeeSalaries = firestoreSalaries.filter(s => s.employeeName === employee.name);
+                    if (employeeSalaries.length > 0) {
+                        employeeSalaries.sort((a, b) => {
+                            const dateA = new Date(a.month);
+                            const dateB = new Date(b.month);
+                            return dateB - dateA;
+                        });
+                        const lastPayment = employeeSalaries[0];
+                        const [pYear, pMonth, pDay] = lastPayment.month.split('-').map(Number);
+                        const lastDate = new Date(pYear, pMonth - 1, pDay);
+                        
+                        const nextDueDate = new Date(lastDate);
+                        const originalDay = lastDate.getDate();
+                        nextDueDate.setMonth(nextDueDate.getMonth() + 1);
+                        if (nextDueDate.getDate() !== originalDay) nextDueDate.setDate(0); 
+                        
+                        const nextDueMidnight = new Date(nextDueDate);
+                        nextDueMidnight.setHours(0,0,0,0);
+                        
+                        const diffTime = nextDueMidnight - today;
+                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                        
+                        if (diffDays <= 0) {
+                            dueEmployees.push(employee.name);
+                        }
+                    }
+                });
+
+                if (dueEmployees.length > 0) {
+                    setTimeout(() => {
+                        showAlert(`يوجد رواتب مستحقة أو متأخرة للموظفين: ${dueEmployees.join('، ')}`, 'warning', 'تنبيه استحقاق رواتب');
+                    }, 1500); // تأخير بسيط لتجنب التداخل مع تنبيه الدخول
+                }
+            };
+
             const toggleDeveloperMode = async () => {
                 if (isDeveloperMode) {
                     // --- Deactivation (إيقاف) ---
@@ -8357,6 +8579,9 @@
                         // --- تسجيل الحدث في الخلفية (Non-blocking) ---
                         logSystemEvent('manager_mode_activated', 'تم تفعيل وضع المدير يدوياً', auth.currentUser ? auth.currentUser.displayName : 'مستخدم')
                             .catch(err => console.error("Background Log Error:", err));
+                            
+                        // فحص وتنبيه استحقاق الرواتب
+                        checkAndAlertDueSalaries();
                     }
                 }
             };
@@ -8395,34 +8620,34 @@
                     
                     let dropdownHTML = `
                         <!-- User Profile Header -->
-                        <div class="px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700 flex items-center gap-3">
-                            <img src="${user.photoURL || 'https://placehold.co/96x96/e2e8f0/64748b?text=U'}" alt="Profile" class="w-9 h-9 rounded-full object-cover border border-slate-300 dark:border-slate-600 shadow-sm flex-shrink-0">
+                        <div class="px-4 py-3 bg-white/40 dark:bg-black/20 backdrop-blur-sm border-b border-black/5 dark:border-white/5 flex items-center gap-3">
+                            <img src="${user.photoURL || 'https://placehold.co/96x96/e2e8f0/64748b?text=U'}" alt="Profile" class="w-9 h-9 rounded-full object-cover border border-white/50 dark:border-white/10 shadow-sm flex-shrink-0">
                             <div class="flex flex-col overflow-hidden">
                                 <p class="font-bold text-sm text-slate-800 dark:text-white leading-tight truncate">${user.displayName}</p>
                                 <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-0.5 truncate">${user.email}</p>
                             </div>
                         </div>
-                        <div id="session-timer-dropdown" class="px-4 py-1 border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-center empty:hidden"></div>
+                        <div id="session-timer-dropdown" class="px-4 py-1 border-b border-black/5 dark:border-white/5 bg-transparent text-center empty:hidden"></div>
 
                         <!-- Main Menu Items -->
                         <div class="py-1.5">
-                            <a href="#" id="menu-invoices-btn" class="flex items-center gap-3 px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors text-slate-700 dark:text-slate-200">
+                            <a href="#" id="menu-invoices-btn" class="flex items-center gap-3 px-4 py-2 hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-slate-700 dark:text-slate-200">
                                 <i data-lucide="receipt-text" class="w-4 h-4 text-slate-400"></i>
                                 <span class="font-semibold text-sm">الفواتير المحفوظة</span>
                             </a>
-                            <a href="#" id="menu-customers-btn" class="flex items-center gap-3 px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors text-slate-700 dark:text-slate-200">
+                            <a href="#" id="menu-customers-btn" class="flex items-center gap-3 px-4 py-2 hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-slate-700 dark:text-slate-200">
                                 <i data-lucide="users-2" class="w-4 h-4 text-slate-400"></i>
                                 <span class="font-semibold text-sm">قاعدة العملاء</span>
                             </a>
-                            <a href="#" id="menu-expenses-btn" class="flex items-center gap-3 px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors text-slate-700 dark:text-slate-200">
+                            <a href="#" id="menu-expenses-btn" class="flex items-center gap-3 px-4 py-2 hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-slate-700 dark:text-slate-200">
                                 <i data-lucide="trending-down" class="w-4 h-4 text-slate-400"></i>
                                 <span class="font-semibold text-sm">المصروفات</span>
                             </a>
-                            <a href="#" id="employees-data-btn" class="flex items-center gap-3 px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors text-slate-700 dark:text-slate-200">
+                            <a href="#" id="employees-data-btn" class="flex items-center gap-3 px-4 py-2 hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-slate-700 dark:text-slate-200">
                                 <i data-lucide="contact" class="w-4 h-4 text-slate-400"></i>
                                 <span class="font-semibold text-sm">بيانات الموظفين</span>
                             </a>
-                            <a href="#" id="print-daily-shift-report-btn" class="flex items-center gap-3 px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors text-slate-700 dark:text-slate-200">
+                            <a href="#" id="print-daily-shift-report-btn" class="flex items-center gap-3 px-4 py-2 hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-slate-700 dark:text-slate-200">
                                 <i data-lucide="printer" class="w-4 h-4 text-slate-400"></i>
                                 <span class="font-semibold text-sm">طباعة تقرير الشيفت</span>
                             </a>
@@ -8430,35 +8655,35 @@
 
                     if (isDeveloperMode) {
                         dropdownHTML += `
-                        <div class="border-t border-slate-200 dark:border-slate-700 py-1.5">
+                        <div class="border-t border-black/5 dark:border-white/5 py-1.5">
                             <div class="px-4 py-1 mb-0.5">
                                 <p class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">أدوات الإدارة</p>
                             </div>
-                            <a href="#" id="menu-returns-btn" class="flex items-center gap-3 px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors text-slate-700 dark:text-slate-200">
+                            <a href="#" id="menu-returns-btn" class="flex items-center gap-3 px-4 py-2 hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-slate-700 dark:text-slate-200">
                                 <i data-lucide="arrow-left-right" class="w-4 h-4 text-slate-400"></i>
                                 <span class="font-semibold text-sm">المرتجعات</span>
                             </a>
-                            <a href="#" id="worker-permissions-btn" class="flex items-center gap-3 px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors text-slate-700 dark:text-slate-200">
+                            <a href="#" id="worker-permissions-btn" class="flex items-center gap-3 px-4 py-2 hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-slate-700 dark:text-slate-200">
                                 <i data-lucide="shield-cog" class="w-4 h-4 text-slate-400"></i>
                                 <span class="font-semibold text-sm">إعدادات المدير</span>
                             </a>
-                            <a href="#" id="invoice-customization-btn" class="flex items-center gap-3 px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors text-slate-700 dark:text-slate-200">
+                            <a href="#" id="invoice-customization-btn" class="flex items-center gap-3 px-4 py-2 hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-slate-700 dark:text-slate-200">
                                 <i data-lucide="file-cog" class="w-4 h-4 text-slate-400"></i>
                                 <span class="font-semibold text-sm">تخصيص الفواتير</span>
                             </a>
-                            <a href="#" id="shift-report-btn" class="flex items-center gap-3 px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors text-slate-700 dark:text-slate-200">
+                            <a href="#" id="shift-report-btn" class="flex items-center gap-3 px-4 py-2 hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-slate-700 dark:text-slate-200">
                                 <i data-lucide="bar-chart-3" class="w-4 h-4 text-slate-400"></i>
                                 <span class="font-semibold text-sm">تقارير المبيعات</span>
                             </a>
-                            <a href="#" id="new-tool-btn" class="flex items-center gap-3 px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors text-slate-700 dark:text-slate-200">
+                            <a href="#" id="new-tool-btn" class="flex items-center gap-3 px-4 py-2 hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-slate-700 dark:text-slate-200">
                                 <i data-lucide="tag" class="w-4 h-4 text-slate-400"></i>
                                 <span class="font-semibold text-sm">خصومات العروض</span>
                             </a>
-                            <a href="#" id="salaries-management-btn" class="flex items-center gap-3 px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors text-slate-700 dark:text-slate-200">
+                            <a href="#" id="salaries-management-btn" class="flex items-center gap-3 px-4 py-2 hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-slate-700 dark:text-slate-200">
                                 <i data-lucide="wallet" class="w-4 h-4 text-slate-400"></i>
                                 <span class="font-semibold text-sm">إدارة الرواتب</span>
                             </a>
-                            <a href="#" id="system-health-btn" class="flex items-center gap-3 px-4 py-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors text-slate-700 dark:text-slate-200">
+                            <a href="#" id="system-health-btn" class="flex items-center gap-3 px-4 py-2 hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-slate-700 dark:text-slate-200">
                                 <i data-lucide="activity" class="w-4 h-4 text-slate-400"></i>
                                 <span class="font-semibold text-sm">حالة النظام</span>
                             </a>
@@ -8466,8 +8691,8 @@
                     }
 
                     dropdownHTML += `
-                        <div class="border-t border-slate-200 dark:border-slate-700 py-1.5 bg-slate-50/50 dark:bg-slate-900/50">
-                             <button id="toggle-more-settings-btn" class="w-full flex items-center justify-between px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 transition-colors group">
+                        <div class="border-t border-black/5 dark:border-white/5 py-1.5 bg-black/5 dark:bg-black/20">
+                             <button id="toggle-more-settings-btn" class="w-full flex items-center justify-between px-4 py-2 hover:bg-black/5 dark:hover:bg-white/10 text-slate-700 dark:text-slate-200 transition-colors group">
                                 <div class="flex items-center gap-3">
                                     <i data-lucide="settings-2" class="w-4 h-4 text-slate-400"></i>
                                     <span class="font-semibold text-sm">Additional settings</span>
@@ -8476,37 +8701,34 @@
                             </button>
                             
                             <div id="more-settings-content" class="hidden transition-all duration-300 pt-1 shadow-inner">
-                                 <a href="#" id="theme-toggle-btn" class="flex items-center gap-3 px-6 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300">
-                                    <i data-lucide="sun" class="w-4 h-4 text-slate-400 light-icon"></i>
-                                    <i data-lucide="moon" class="w-4 h-4 text-slate-400 dark-icon hidden"></i>
-                                    <span class="font-medium text-sm">dark/light</span>
-                                </a>
-                                <a href="#" id="sound-toggle-btn" class="flex items-center gap-3 px-6 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300">
-                                    <i data-lucide="volume-2" class="w-4 h-4 text-slate-400 sound-on-icon"></i>
-                                    <i data-lucide="volume-x" class="w-4 h-4 text-slate-400 sound-off-icon hidden"></i>
-                                    <span class="font-medium text-sm">Sound effects</span>
-                                </a>
-                                <a href="#" id="developer-mode-btn" class="flex items-center gap-3 px-6 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300">
+                                <div class="py-1 space-y-0.5">
+                                    <a href="#" id="open-interface-settings-btn" class="flex items-center gap-3 px-6 py-2.5 hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-slate-600 dark:text-slate-300">
+                                        <i data-lucide="monitor-smartphone" class="w-4 h-4 text-slate-400"></i>
+                                        <span class="font-medium text-sm">Interface Settings</span>
+                                    </a>
+                                </div>
+                                <div class="h-px bg-black/5 dark:bg-white/5 w-full my-1"></div>
+                                <a href="#" id="developer-mode-btn" class="flex items-center gap-3 px-6 py-2 hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-slate-600 dark:text-slate-300">
                                     <i data-lucide="shield-alert" class="w-4 h-4 ${isDeveloperMode ? 'text-rose-500' : 'text-slate-400'}"></i>
                                     <span class="font-medium text-sm">${isDeveloperMode ? 'تعطيل المدير' : 'تفعيل المدير'}</span>
                                 </a>
-                                <a href="#" id="developer-info-btn" class="flex items-center gap-3 px-6 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300">
+                                <a href="#" id="developer-info-btn" class="flex items-center gap-3 px-6 py-2 hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-slate-600 dark:text-slate-300">
                                     <i data-lucide="code-2" class="w-4 h-4 text-slate-400"></i>
                                     <span class="font-medium text-sm">Developer</span>
                                 </a>
-                                <a href="#" id="version-info-btn" class="flex items-center gap-3 px-6 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300">
+                                <a href="#" id="version-info-btn" class="flex items-center gap-3 px-6 py-2 hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-slate-600 dark:text-slate-300">
                                     <span id="version-info-icon-wrapper" class="relative">
                                         <i data-lucide="info" class="w-4 h-4 text-slate-400"></i>
                                     </span>
                                     <span class="font-medium text-sm">System updates</span>
                                 </a>
-                                <a href="#" id="help-dropdown-btn" class="flex items-center gap-3 px-6 py-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300">
+                                <a href="#" id="help-dropdown-btn" class="flex items-center gap-3 px-6 py-2 hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-slate-600 dark:text-slate-300">
                                     <i data-lucide="life-buoy" class="w-4 h-4 text-slate-400"></i>
                                     <span class="font-medium text-sm">Help & Support</span>
                                 </a>
                                 ${isDeveloperMode ? `
-                                <div class="h-px bg-slate-200 dark:bg-slate-700 w-full my-1"></div>
-                                <a href="#" id="logout-btn" class="flex items-center gap-3 px-6 py-2 hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-colors text-rose-600">
+                                <div class="h-px bg-black/5 dark:bg-white/5 w-full my-1"></div>
+                                <a href="#" id="logout-btn" class="flex items-center gap-3 px-6 py-2 hover:bg-rose-500/10 dark:hover:bg-rose-500/20 transition-colors text-rose-600">
                                     <i data-lucide="log-out" class="w-4 h-4"></i>
                                     <span class="font-bold text-sm">Log out</span>
                                 </a>` : ''}
@@ -8518,11 +8740,11 @@
                             <p class="font-bold text-sm text-slate-800 leading-tight">${user.displayName}</p>
                             <div id="developer-mode-status" class="text-xs text-cyan-600 font-semibold leading-tight"></div>
                         </div>
-                        <button id="settings-btn" class="relative w-10 h-10 flex-shrink-0 bg-white dark:bg-slate-800 rounded-full hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200/80 dark:border-slate-700 flex items-center justify-center transition-all transform hover:scale-105 overflow-hidden p-0.5 shadow-sm" title="الإعدادات والملف الشخصي">
+                        <button id="settings-btn" class="relative w-10 h-10 flex-shrink-0 bg-white/70 dark:bg-[#161616]/70 backdrop-blur-md rounded-full hover:bg-white dark:hover:bg-[#222] border border-slate-200/50 dark:border-white/10 flex items-center justify-center transition-all transform hover:scale-105 overflow-hidden p-0.5 shadow-sm" title="الإعدادات والملف الشخصي">
                             <img src="${user.photoURL || 'https://placehold.co/96x96/e2e8f0/64748b?text=U'}" alt="${user.displayName}" class="w-full h-full rounded-full object-cover">
                         </button>
                     </div>
-                    <div id="settings-dropdown" class="absolute left-0 mt-2 w-64 max-h-[60vh] overflow-y-auto rounded-xl shadow-xl bg-white dark:bg-slate-900 z-[100] hidden p-0 border border-slate-200 dark:border-slate-700 custom-scrollbar">
+                    <div id="settings-dropdown" class="absolute left-0 mt-2 w-64 max-h-[60vh] overflow-y-auto rounded-2xl shadow-2xl bg-white/70 dark:bg-[#111111]/70 backdrop-blur-2xl z-[100] hidden p-0 border border-white/50 dark:border-white/10 custom-scrollbar">
                         ${dropdownHTML}
                     </div>`;
                     
@@ -8533,9 +8755,6 @@
                         e.stopPropagation();
                         settingsDropdown.classList.toggle('hidden');
                         if (!settingsDropdown.classList.contains('hidden')) {
-                             // Update theme icons on open
-                            updateThemeIcons(settingsDropdown);
-                            updateSoundIcons(settingsDropdown);
                             lucide.createIcons();
                         }
                     });
@@ -8555,41 +8774,15 @@
                     }
                     // ----------------------------------------------------
 
-                    const updateThemeIcons = (dropdown) => {
-                        const lightIcon = dropdown.querySelector('.light-icon');
-                        const darkIcon = dropdown.querySelector('.dark-icon');
-                        
-                        lightIcon.classList.add('hidden');
-                        darkIcon.classList.add('hidden');
-
-                        if (currentTheme === 'dark') {
-                            darkIcon.classList.remove('hidden');
-                        } else {
-                            lightIcon.classList.remove('hidden');
-                        }
-                    };
-
-                    const updateSoundIcons = (dropdown) => {
-                        const soundOnIcon = dropdown.querySelector('.sound-on-icon');
-                        const soundOffIcon = dropdown.querySelector('.sound-off-icon');
-                        if (!soundOnIcon || !soundOffIcon) return;
-                        soundOnIcon.classList.toggle('hidden', !soundEnabled);
-                        soundOffIcon.classList.toggle('hidden', soundEnabled);
-                    };
-                    
-                    document.getElementById('theme-toggle-btn').addEventListener('click', (e) => {
+                    document.getElementById('open-interface-settings-btn')?.addEventListener('click', (e) => {
                         e.preventDefault();
-                        toggleTheme();
-                        // Update icons
-                        updateThemeIcons(settingsDropdown);
-                    });
-
-                    document.getElementById('sound-toggle-btn').addEventListener('click', (e) => {
-                        e.preventDefault();
-                        soundEnabled = !soundEnabled;
-                        localStorage.setItem('badrly-pos-sound', soundEnabled);
-                        updateSoundIcons(settingsDropdown);
-                        if (soundEnabled) playSound('success');
+                        const dpiSelect = document.getElementById('dpi-scale-select');
+                        if (dpiSelect) dpiSelect.value = currentDpiBase;
+                        updateThemeUI();
+                        updateSoundUI();
+                        interfaceSettingsModal.classList.remove('hidden');
+                        lucide.createIcons();
+                        settingsDropdown.classList.add('hidden');
                     });
 
                     document.getElementById('developer-mode-btn').addEventListener('click', () => {
@@ -9831,13 +10024,13 @@
             if (!isOnlineMode || !userId) return;
             const defaultPermissions = {
                 cashiers: [{ name: 'Badr Ibrahim', code: '001', key: '0000' }],
-                shopName: 'Badrly POS System',
+                shopName: 'Sellora ERP',
                 logoUrl: '',
-                branchInfo: '63511 Saad Zaghloul',
+                branchInfo: '',
                 machineNumber: 'LPQ80-ESC',
-                contactNumber: '01014175070',
-                facebookLink: 'https://www.facebook.com/gedar.fayoum/',
-                invoiceAddress: 'Address\nLast wall of the general hospital, in front of Abu Salah butchery and next to the American laundry',
+                contactNumber: '01069913150',
+                facebookLink: 'https://www.badre.site/',
+                invoiceAddress: '',
                 returnPolicy: 'Return and Exchange Policy: Returns or exchanges are accepted only if the product is in its original condition, not scratched or broken. If it was sealed, the packaging must be intact. Any product that violates this policy will not be accepted for return.',
                 systemLock: {
                     enabled: false,
@@ -12125,7 +12318,7 @@
                             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backup));
                             const downloadAnchorNode = document.createElement('a');
                             downloadAnchorNode.setAttribute("href", dataStr);
-                            downloadAnchorNode.setAttribute("download", `backup_badrly_${backup.meta.timestamp}.json`);
+                            downloadAnchorNode.setAttribute("download", `backup_Sallora_${backup.meta.timestamp}.json`);
                             document.body.appendChild(downloadAnchorNode);
                             downloadAnchorNode.click();
                             downloadAnchorNode.remove();
@@ -15359,6 +15552,8 @@
             initializeFirebase();
             loadTheme();
             loadSoundSettings();
+            applyZoom(currentZoom);
+            applyDPI(currentDpiBase);
 
             // --- Keyboard Shortcuts Implementation ---
             document.addEventListener('keydown', (e) => {
